@@ -1,5 +1,6 @@
 package com.example.user1.recipelist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +16,8 @@ import com.example.user1.recipelist.Adapters.StepsAdapter;
 
 public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapterOnClickHandler{
 
-    StepsFragment steps;
+    private int r_id;
+    private StepsFragment steps;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,12 +25,12 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         setContentView(R.layout.activity_steps);
 
         steps = new StepsFragment();
-        int id = 0;
+        r_id = 0;
         Intent intent = getIntent();
-        String step_extra_key = this.getString(R.string.step_extra);
+        String step_extra_key = this.getString(R.string.recipe_id_extra);
         if (intent.hasExtra(step_extra_key))
-            id = intent.getIntExtra(step_extra_key, 0);
-        steps.setID(id);
+            r_id = intent.getIntExtra(step_extra_key, 0);
+        steps.setID(r_id);
         steps.setCH(this);
 
         FragmentManager manager = getSupportFragmentManager();
@@ -37,6 +39,20 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
 
     @Override
     public void onClick(int id) {
-        Log.d("TESTBUG", Integer.toString(id));
+        Context context = Steps.this;
+        Class destination = SingleStep.class;
+        Intent intent = new Intent(context, destination);
+
+        String step_extra_key = this.getString(R.string.step_extra);
+        intent.putExtra(step_extra_key, id);
+
+        String r_id_key = this.getString(R.string.recipe_id_extra);
+        intent.putExtra(r_id_key, r_id);
+
+        int step_count = steps.getStepCount();
+        String max_steps_key = this.getString(R.string.max_steps_extra);
+        intent.putExtra(max_steps_key, step_count - 1);
+
+        startActivity(intent);
     }
 }

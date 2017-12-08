@@ -64,7 +64,7 @@ public class RecipesList extends AppCompatActivity implements RecipesAdapter.Rec
         Context context = RecipesList.this;
         Class destination = Steps.class;
         Intent intent = new Intent(context, destination);
-        String step_extra_key = this.getString(R.string.step_extra);
+        String step_extra_key = this.getString(R.string.recipe_id_extra);
         intent.putExtra(step_extra_key, id);
         startActivity(intent);
     }

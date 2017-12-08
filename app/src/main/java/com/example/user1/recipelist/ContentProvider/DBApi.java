@@ -37,7 +37,7 @@ public class DBApi {
     }
 
     static public void addIngredient(int id, double quantity,
-                                      String ingredient, String measure, Context c) {
+                                     String ingredient, String measure, Context c) {
         ContentValues cv = new ContentValues();
 
         cv.put(DBContract.Ingredients.COLUMN_ID, id);
@@ -114,7 +114,7 @@ public class DBApi {
             int counter = 0;
             do {
                 double quantity = cursor.getDouble(index_quantity);
-                DecimalFormat f = new DecimalFormat("###.###");
+                DecimalFormat f = new DecimalFormat("###,###.###");
                 String measure = cursor.getString(index_measure);
                 String ingredient = cursor.getString(index_ingredient);
                 return_array[counter++] = String.format(Locale.US,"%s %s %s",
@@ -159,6 +159,41 @@ public class DBApi {
         }
         cursor.close();
         return return_array;
+    }
+
+    static public StepObject getSingleStep(int r_id, int step, Context c) {
+        String selection = String.format(Locale.US, "%s=%d AND %s=%d",
+                DBContract.Steps.COLUMN_RECIPE_ID, r_id,
+                DBContract.Steps.COLUMN_ID, step);
+
+        Cursor cursor = c.getContentResolver().query(
+                DBContract.Steps.CONTENT_URI, null,
+                 selection, null, DBContract.Steps.COLUMN_ID);
+
+        if (cursor == null || cursor.getCount() < 1) return null;
+        cursor.moveToFirst();
+
+        int index_id =
+                cursor.getColumnIndex(DBContract.Steps.COLUMN_ID);
+        int index_description =
+                cursor.getColumnIndex(DBContract.Steps.COLUMN_DESCRIPTION);
+        int index_short_description =
+                cursor.getColumnIndex(DBContract.Steps.COLUMN_SHORT_DESCRIPTION);
+        int index_video_url =
+                cursor.getColumnIndex(DBContract.Steps.COLUMN_VIDEO_URL);
+        int index_thumbnail_url =
+                cursor.getColumnIndex(DBContract.Steps.COLUMN_THUMBNAIL_URL);
+
+        int id = cursor.getInt(index_id);
+        String description = cursor.getString(index_description);
+        String short_description = cursor.getString(index_short_description);
+        String video_url = cursor.getString(index_video_url);
+        String thumbnail_url = cursor.getString(index_thumbnail_url);
+        StepObject return_step = new StepObject(id, description,
+                short_description, video_url, thumbnail_url);
+
+        cursor.close();
+        return return_step;
     }
 
 }

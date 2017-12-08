@@ -20,6 +20,8 @@ import com.example.user1.recipelist.ContentProvider.DBApi;
 
 public class StepsFragment extends Fragment {
 
+    private StepsAdapter steps;
+
     private int recipe_id;
 
     private StepsAdapter.StepsAdapterOnClickHandler ch;
@@ -36,6 +38,11 @@ public class StepsFragment extends Fragment {
         this.ch = ch;
     }
 
+    public int getStepCount() {
+        Log.d("TESTBUG frag send", Integer.toString(steps.getItemCount()));
+        return steps.getItemCount();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -47,7 +54,7 @@ public class StepsFragment extends Fragment {
                 steps_recycler =
                         (RecyclerView) root_view.findViewById(R.id.step_recycler);
         IngredientsAdapter ingredients = new IngredientsAdapter();
-        StepsAdapter steps = new StepsAdapter(ch);
+        steps = new StepsAdapter(ch);
 
         ingredients_lm = new LinearLayoutManager(this.getContext());
         steps_lm = new LinearLayoutManager(this.getContext());
@@ -63,6 +70,9 @@ public class StepsFragment extends Fragment {
 
         ingredients.setData(DBApi.getIngredients(recipe_id, this.getContext()));
         steps.setData(DBApi.getSteps(recipe_id, this.getContext()));
+
+        //step_count = steps.getItemCount();
+        //Log.d("TESTBUG", Integer.toString(step_count));
 
         return root_view;
     }

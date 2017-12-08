@@ -25,10 +25,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".RecipesList"/>
         </activity>
+        <activity android:name=".SingleStep"
+            android:parentActivityName=".Steps">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Steps"/>
+        </activity>
         <provider
             android:authorities="com.example.user1.recipelist"
             android:name="com.example.user1.recipelist.ContentProvider.RecipeProvider"
             android:exported="false"/>
-    </application>
+</application>
 
-</manifest>
+    </manifest>
