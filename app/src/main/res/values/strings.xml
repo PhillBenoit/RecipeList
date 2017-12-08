@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Recipe List</string>
+    <string name="steps_name">Recipe Steps</string>
+    <string name="step_extra">StepExtra</string>
 </resources>

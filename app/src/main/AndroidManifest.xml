@@ -18,6 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Steps"
+            android:label="@string/steps_name"
+            android:parentActivityName=".RecipesList">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RecipesList"/>
+        </activity>
         <provider
             android:authorities="com.example.user1.recipelist"
             android:name="com.example.user1.recipelist.ContentProvider.RecipeProvider"

@@ -1,6 +1,7 @@
 package com.example.user1.recipelist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,8 +61,12 @@ public class RecipesList extends AppCompatActivity implements RecipesAdapter.Rec
 
     @Override
     public void onClick(int id) {
-
-        Log.d("TESTBUG", Integer.toString(id));
+        Context context = RecipesList.this;
+        Class destination = Steps.class;
+        Intent intent = new Intent(context, destination);
+        String step_extra_key = this.getString(R.string.step_extra);
+        intent.putExtra(step_extra_key, id);
+        startActivity(intent);
     }
 
     private static class getRecipes extends AsyncTask<Context, Context, Context> {

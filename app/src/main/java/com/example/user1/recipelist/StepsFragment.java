@@ -23,12 +23,10 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsAdapter
 
     private LinearLayoutManager ingredients_lm, steps_lm;
 
-    public StepsFragment() {
-        recipe_id = 0;
-    }
+    public StepsFragment() {}
 
-    public interface IndexInterface {
-        void setID(int id);
+    public void setID(int id) {
+        recipe_id = id;
     }
 
     @Nullable
@@ -56,8 +54,8 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsAdapter
         ingredients_recycler.setAdapter(ingredients);
         steps_recycler.setAdapter(steps);
 
-        //ingredients.setData(DBApi.getIngredients(0, this.getContext()));
-        //steps.setData(DBApi.getSteps(0, this.getContext()));
+        ingredients.setData(DBApi.getIngredients(recipe_id, this.getContext()));
+        steps.setData(DBApi.getSteps(recipe_id, this.getContext()));
 
         return root_view;
     }
