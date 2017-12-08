@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,11 @@ import com.example.user1.recipelist.ContentProvider.DBApi;
  *
  */
 
-public class StepsFragment extends Fragment implements StepsAdapter.StepsAdapterOnClickHandler{
+public class StepsFragment extends Fragment {
 
     private int recipe_id;
+
+    private StepsAdapter.StepsAdapterOnClickHandler ch;
 
     private LinearLayoutManager ingredients_lm, steps_lm;
 
@@ -27,6 +30,10 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsAdapter
 
     public void setID(int id) {
         recipe_id = id;
+    }
+
+    public void setCH(StepsAdapter.StepsAdapterOnClickHandler ch) {
+        this.ch = ch;
     }
 
     @Nullable
@@ -40,7 +47,7 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsAdapter
                 steps_recycler =
                         (RecyclerView) root_view.findViewById(R.id.step_recycler);
         IngredientsAdapter ingredients = new IngredientsAdapter();
-        StepsAdapter steps = new StepsAdapter(this);
+        StepsAdapter steps = new StepsAdapter(ch);
 
         ingredients_lm = new LinearLayoutManager(this.getContext());
         steps_lm = new LinearLayoutManager(this.getContext());
@@ -65,10 +72,5 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsAdapter
         super.onSaveInstanceState(outState);
         outState.putInt("ing_scroll", ingredients_lm.findFirstVisibleItemPosition());
         outState.putInt("step_scroll", steps_lm.findFirstVisibleItemPosition());
-    }
-
-    @Override
-    public void onClick(int id) {
-
     }
 }

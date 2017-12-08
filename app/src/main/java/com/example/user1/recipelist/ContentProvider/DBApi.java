@@ -7,6 +7,7 @@ import android.database.Cursor;
 import com.example.user1.recipelist.StepObject;
 import com.example.user1.recipelist.RecipeObject;
 
+import java.text.DecimalFormat;
 import java.util.Locale;
 
 /**
@@ -113,10 +114,11 @@ public class DBApi {
             int counter = 0;
             do {
                 double quantity = cursor.getDouble(index_quantity);
+                DecimalFormat f = new DecimalFormat("###.###");
                 String measure = cursor.getString(index_measure);
                 String ingredient = cursor.getString(index_ingredient);
-                return_array[counter++] = String.format(Locale.US,"%f %s %s",
-                        quantity, measure, ingredient);
+                return_array[counter++] = String.format(Locale.US,"%s %s %s",
+                        f.format(quantity), measure, ingredient);
             } while (cursor.moveToNext());
         }
         cursor.close();

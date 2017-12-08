@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import com.example.user1.recipelist.Adapters.StepsAdapter;
 
 /**
  *
  */
 
-public class Steps extends AppCompatActivity {
+public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapterOnClickHandler{
 
     StepsFragment steps;
 
@@ -26,9 +29,14 @@ public class Steps extends AppCompatActivity {
         if (intent.hasExtra(step_extra_key))
             id = intent.getIntExtra(step_extra_key, 0);
         steps.setID(id);
+        steps.setCH(this);
 
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().add(R.id.steps_container, steps).commit();
     }
 
+    @Override
+    public void onClick(int id) {
+        Log.d("TESTBUG", Integer.toString(id));
+    }
 }
