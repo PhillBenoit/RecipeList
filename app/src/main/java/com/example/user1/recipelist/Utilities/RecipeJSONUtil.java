@@ -1,4 +1,4 @@
-package com.example.user1.recipelist;
+package com.example.user1.recipelist.Utilities;
 
 import android.content.Context;
 
@@ -21,7 +21,7 @@ import java.util.Scanner;
 
 public class RecipeJSONUtil {
 
-    static void parseJSON(String http_string_results, Context c) {
+    public static void parseJSON(String http_string_results, Context c) {
         if (http_string_results == null) return;
         try {
             DBApi.clearDB(c);

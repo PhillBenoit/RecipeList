@@ -11,25 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecipesList">
+        <activity android:name=".Activities.RecipesList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Steps"
+        <activity android:name=".Activities.Steps"
             android:label="@string/steps_name"
-            android:parentActivityName=".RecipesList">
+            android:parentActivityName=".Activities.RecipesList">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".RecipesList"/>
+                android:value=".Activities.RecipesList"/>
         </activity>
-        <activity android:name=".SingleStep"
-            android:parentActivityName=".Steps">
+        <activity android:name=".Activities.SingleStep"
+            android:parentActivityName=".Activities.Steps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Steps"/>
+                android:value=".Activities.Steps"/>
         </activity>
         <provider
             android:authorities="com.example.user1.recipelist"

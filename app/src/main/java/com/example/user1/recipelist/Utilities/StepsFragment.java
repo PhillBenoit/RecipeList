@@ -1,4 +1,4 @@
-package com.example.user1.recipelist;
+package com.example.user1.recipelist.Utilities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.user1.recipelist.Adapters.IngredientsAdapter;
 import com.example.user1.recipelist.Adapters.StepsAdapter;
 import com.example.user1.recipelist.ContentProvider.DBApi;
+import com.example.user1.recipelist.R;
 
 /**
  *
@@ -21,6 +22,7 @@ import com.example.user1.recipelist.ContentProvider.DBApi;
 public class StepsFragment extends Fragment {
 
     private StepsAdapter steps;
+    private IngredientsAdapter ingredients;
 
     private int recipe_id;
 
@@ -43,6 +45,10 @@ public class StepsFragment extends Fragment {
         return steps.getItemCount();
     }
 
+    public float getSmallFontSize() {
+        return ingredients.getFontSize();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -53,7 +59,7 @@ public class StepsFragment extends Fragment {
                 (RecyclerView) root_view.findViewById(R.id.ingredient_recycler),
                 steps_recycler =
                         (RecyclerView) root_view.findViewById(R.id.step_recycler);
-        IngredientsAdapter ingredients = new IngredientsAdapter();
+        ingredients = new IngredientsAdapter();
         steps = new StepsAdapter(ch);
 
         ingredients_lm = new LinearLayoutManager(this.getContext());

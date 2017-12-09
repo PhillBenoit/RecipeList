@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.user1.recipelist.R;
-import com.example.user1.recipelist.RecipeObject;
+import com.example.user1.recipelist.Objects.RecipeObject;
 
 /**
  *

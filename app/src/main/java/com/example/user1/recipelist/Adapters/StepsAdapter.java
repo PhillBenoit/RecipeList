@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.user1.recipelist.R;
-import com.example.user1.recipelist.StepObject;
+import com.example.user1.recipelist.Objects.StepObject;
 
 /**
 
@@ -30,7 +30,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepCell>{
     }
 
     public interface StepsAdapterOnClickHandler {
-        void onClick(int id);
+        void onClick(StepObject step);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepCell>{
         @Override
         public void onClick(View view) {
             int index = getAdapterPosition();
-            click_handler.onClick(steps[index].getId());
+            click_handler.onClick(steps[index]);
         }
     }
 

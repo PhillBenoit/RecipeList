@@ -1,4 +1,4 @@
-package com.example.user1.recipelist;
+package com.example.user1.recipelist.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.widget.TextView;
 
 import com.example.user1.recipelist.Adapters.StepsAdapter;
+import com.example.user1.recipelist.Objects.StepObject;
+import com.example.user1.recipelist.R;
+import com.example.user1.recipelist.Utilities.StepsFragment;
 
 /**
  *
@@ -18,10 +21,15 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
 
     private int r_id;
     private StepsFragment steps;
+    private boolean is_tablet;
+
+    TextView step_detail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        is_tablet = getResources().getBoolean(R.bool.isTablet);
         setContentView(R.layout.activity_steps);
 
         steps = new StepsFragment();
@@ -38,7 +46,21 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
     }
 
     @Override
-    public void onClick(int id) {
+    public void onClick(StepObject step) {
+        if (is_tablet) {
+            setStepData(step);
+        } else {
+            launchSingleStep(step.getId());
+        }
+    }
+
+    public void setStepData(StepObject step) {
+        step_detail = (TextView) findViewById(R.id.single_step_detail);
+        step_detail.setTextSize(steps.getSmallFontSize());
+        step_detail.setText(step.getDescription());
+    }
+
+    public void launchSingleStep(int id) {
         Context context = Steps.this;
         Class destination = SingleStep.class;
         Intent intent = new Intent(context, destination);

@@ -1,4 +1,4 @@
-package com.example.user1.recipelist;
+package com.example.user1.recipelist.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,11 +8,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 
 import com.example.user1.recipelist.Adapters.RecipesAdapter;
 import com.example.user1.recipelist.ContentProvider.DBApi;
+import com.example.user1.recipelist.R;
+import com.example.user1.recipelist.Utilities.RecipeJSONUtil;
 
 public class RecipesList extends AppCompatActivity implements RecipesAdapter.RecipesAdapterOnClickHandler {
 

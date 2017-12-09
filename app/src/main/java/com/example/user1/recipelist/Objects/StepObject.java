@@ -1,4 +1,4 @@
-package com.example.user1.recipelist;
+package com.example.user1.recipelist.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;

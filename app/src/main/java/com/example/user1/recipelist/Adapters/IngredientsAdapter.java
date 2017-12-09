@@ -26,6 +26,10 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         ingredients = null;
     }
 
+    public float getFontSize() {
+        return font_size;
+    }
+
     @Override
     public IngredientBox onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();

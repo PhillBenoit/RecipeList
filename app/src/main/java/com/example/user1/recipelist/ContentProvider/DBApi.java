@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.example.user1.recipelist.StepObject;
-import com.example.user1.recipelist.RecipeObject;
+import com.example.user1.recipelist.Objects.StepObject;
+import com.example.user1.recipelist.Objects.RecipeObject;
 
 import java.text.DecimalFormat;
 import java.util.Locale;
