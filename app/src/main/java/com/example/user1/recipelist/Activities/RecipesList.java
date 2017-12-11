@@ -12,6 +12,7 @@ import android.view.Display;
 
 import com.example.user1.recipelist.Adapters.RecipesAdapter;
 import com.example.user1.recipelist.ContentProvider.DBApi;
+import com.example.user1.recipelist.Objects.RecipeObject;
 import com.example.user1.recipelist.R;
 import com.example.user1.recipelist.Utilities.RecipeJSONUtil;
 
@@ -61,12 +62,14 @@ public class RecipesList extends AppCompatActivity implements RecipesAdapter.Rec
     }
 
     @Override
-    public void onClick(int id) {
+    public void onClick(RecipeObject recipe) {
         Context context = RecipesList.this;
         Class destination = Steps.class;
         Intent intent = new Intent(context, destination);
         String step_extra_key = this.getString(R.string.recipe_id_extra);
-        intent.putExtra(step_extra_key, id);
+        intent.putExtra(step_extra_key, recipe.getId());
+        String title_extra_key = this.getString(R.string.title_extra);
+        intent.putExtra(title_extra_key, recipe.getName());
         startActivity(intent);
     }
 

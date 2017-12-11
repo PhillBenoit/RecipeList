@@ -4,6 +4,7 @@
     <string name="step_extra">StepExtra</string>
     <string name="recipe_id_extra">RecipeIDExtra</string>
     <string name="max_steps_extra">MaxStepsExtra</string>
+    <string name="title_extra">TitleExtra</string>
     <string name="previous_string"><![CDATA[<]]></string>
     <string name="next_string"><![CDATA[>]]></string>
 </resources>

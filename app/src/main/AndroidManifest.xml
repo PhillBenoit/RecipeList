@@ -26,6 +26,7 @@
                 android:value=".Activities.RecipesList"/>
         </activity>
         <activity android:name=".Activities.SingleStep"
+            android:label="@string/steps_name"
             android:parentActivityName=".Activities.Steps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

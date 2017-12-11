@@ -57,7 +57,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.TitleCel
     }
 
     public interface RecipesAdapterOnClickHandler {
-        void onClick(int id);
+        void onClick(RecipeObject recipe);
     }
 
     public void setData(RecipeObject[] recipes) {
@@ -83,7 +83,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.TitleCel
         @Override
         public void onClick(View view) {
             int index = getAdapterPosition();
-            click_handler.onClick(recipes[index].getId());
+            click_handler.onClick(recipes[index]);
         }
     }
 }
