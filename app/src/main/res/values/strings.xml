@@ -7,4 +7,6 @@
     <string name="title_extra">TitleExtra</string>
     <string name="previous_string"><![CDATA[<]]></string>
     <string name="next_string"><![CDATA[>]]></string>
+    <string name="appwidget_text">Please select a recipe</string>
+    <string name="add_widget">Add widget</string>
 </resources>

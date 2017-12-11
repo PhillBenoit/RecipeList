@@ -18,24 +18,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Steps"
+        <activity
+            android:name=".Activities.Steps"
             android:label="@string/steps_name"
             android:parentActivityName=".Activities.RecipesList">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.RecipesList"/>
+                android:value=".Activities.RecipesList" />
         </activity>
-        <activity android:name=".Activities.SingleStep"
+        <activity
+            android:name=".Activities.SingleStep"
             android:label="@string/steps_name"
             android:parentActivityName=".Activities.Steps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.Steps"/>
+                android:value=".Activities.Steps" />
         </activity>
-        <provider
-            android:authorities="com.example.user1.recipelist"
-            android:name="com.example.user1.recipelist.ContentProvider.RecipeProvider"
-            android:exported="false"/>
-</application>
 
-    </manifest>
+        <provider
+            android:name=".ContentProvider.RecipeProvider"
+            android:authorities="com.example.user1.recipelist"
+            android:exported="false" />
+
+        <receiver android:name=".Utilities.IngredientListWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/ingredient_list_widget_info" />
+        </receiver>
+    </application>
+
+</manifest>
