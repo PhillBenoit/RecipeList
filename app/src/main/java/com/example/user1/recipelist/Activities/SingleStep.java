@@ -26,16 +26,18 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 /**
- *
+ *  Activity for a single step in phone mode
  */
 
 public class SingleStep extends AppCompatActivity {
 
+    //recipe id, step id, number of steps in the recipe, lowest step number
     int id, step, number_of_steps, min_step = 0;
 
     TextView step_detail;
     Button previous, next;
 
+    //video player components
     private int window_index;
     private long playback_position;
     private SimpleExoPlayerView video_view;
@@ -49,31 +51,37 @@ public class SingleStep extends AppCompatActivity {
         setContentView(R.layout.activity_single_step);
         Intent intent = getIntent();
 
+        //keys to retrieve values from the intent
         String step_extra_key = this.getString(R.string.step_extra);
         String r_id_key = this.getString(R.string.recipe_id_extra);
         String max_steps_key = this.getString(R.string.max_steps_extra);
         String title_key = this.getString(R.string.title_extra);
 
+        //retrieve values from the intent
         id = intent.getIntExtra(r_id_key, 0);
         step = intent.getIntExtra(step_extra_key, 0);
         number_of_steps = intent.getIntExtra(max_steps_key, 0);
         setTitle(intent.getStringExtra(title_key));
 
+        //set up screen components
         step_detail = (TextView) findViewById(R.id.single_step_detail);
         previous = (Button) findViewById(R.id.previous_navigator);
         next = (Button) findViewById(R.id.next_navigator);
 
+        //use screen size to calculate font size
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
+        //int width = size.x;
         int height = size.y;
         float font_size = height * 0.03f;
 
+        //set font size
         step_detail.setTextSize(font_size);
         previous.setTextSize(font_size*2);
         next.setTextSize(font_size*2);
 
+        //click listener for previous action
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +90,7 @@ public class SingleStep extends AppCompatActivity {
             }
         });
 
+        //click listener for next action
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,11 +99,14 @@ public class SingleStep extends AppCompatActivity {
             }
         });
 
+        //assign video player to layout item
         video_view = (SimpleExoPlayerView) findViewById(R.id.step_video);
 
+        //call method that loads the screen components
         setData();
     }
 
+    //sets up the video player
     private void initializePlayer() {
         video_player = ExoPlayerFactory.newSimpleInstance(
                 this, new DefaultTrackSelector(), new DefaultLoadControl());
@@ -106,23 +118,35 @@ public class SingleStep extends AppCompatActivity {
         video_player.prepare(mediaSource, true, false);
     }
 
+    //build media source from URI
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource(uri,
                 new DefaultHttpDataSourceFactory("ua"),
                 new DefaultExtractorsFactory(), null, null);
     }
 
+    //assigns layout elements based on current step
     public void setData() {
+        //get step data from content provider
         StepObject step_object = DBApi.getSingleStep(id, step, this);
+
+        //prevent loading data if the search for a step was unsuccessful
         if (step_object == null) return;
-        video_url = step_object.getVideo_url();
+
+        //display step text
         step_detail.setText(step_object.getDescription());
+
+        //enable/disable previous/next step for min/max step numbers
         previous.setEnabled(step != min_step);
         next.setEnabled(step != number_of_steps);
+
+        //set up video player
+        video_url = step_object.getVideo_url();
         if (video_player != null) video_player.release();
         initializePlayer();
     }
 
+    //start video
     @Override
     public void onStart() {
         super.onStart();
@@ -131,6 +155,7 @@ public class SingleStep extends AppCompatActivity {
         }
     }
 
+    //restore video after activity suspend
     @Override
     public void onResume() {
         super.onResume();
@@ -139,6 +164,7 @@ public class SingleStep extends AppCompatActivity {
         }
     }
 
+    //makes sure video resource is cleared
     @Override
     public void onPause() {
         super.onPause();
@@ -147,6 +173,7 @@ public class SingleStep extends AppCompatActivity {
         }
     }
 
+    //makes sure video resource is cleared
     @Override
     public void onStop() {
         super.onStop();
@@ -155,6 +182,7 @@ public class SingleStep extends AppCompatActivity {
         }
     }
 
+    //makes sure video resource is cleared and saves position for reloading
     private void releasePlayer() {
         if (video_player != null) {
             playback_position = video_player.getCurrentPosition();

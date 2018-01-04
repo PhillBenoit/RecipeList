@@ -30,43 +30,59 @@ import com.google.android.exoplayer2.util.Util;
 
 public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapterOnClickHandler{
 
+    //recipe id and video player component
     private int r_id, window_index;
-    private long playback_position;
+
+    //fragment with the list of steps
     private StepsFragment steps;
-    private boolean is_tablet;
-    private SimpleExoPlayerView video_view;
-    private SimpleExoPlayer video_player;
+
     private String recipe_title;
 
+    private boolean is_tablet;
+
+    //video player components
+    private long playback_position;
+    private SimpleExoPlayerView video_view;
+    private SimpleExoPlayer video_player;
+
     TextView step_detail;
+
+    //used to hold a single step's details for tablet mode
     StepObject step_detail_object;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        is_tablet = getResources().getBoolean(R.bool.isTablet);
         setContentView(R.layout.activity_steps);
 
-        steps = new StepsFragment();
-        r_id = 0;
+        //set boolean for tablet mode
+        is_tablet = getResources().getBoolean(R.bool.isTablet);
+
         Intent intent = getIntent();
         String step_extra_key = this.getString(R.string.recipe_id_extra);
         if (intent.hasExtra(step_extra_key))
             r_id = intent.getIntExtra(step_extra_key, 0);
-        steps.setID(r_id);
-        steps.setCH(this);
 
         String title_extra_key = this.getString(R.string.title_extra);
         if (intent.hasExtra(title_extra_key))
             recipe_title = intent.getStringExtra(title_extra_key);
 
+
+        //set up steps fragment
+        steps = new StepsFragment();
+        r_id = 0;
+        steps.setID(r_id);
+        steps.setCH(this);
+
+        //set up and launch fragment manager
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().add(R.id.steps_container, steps).commit();
 
+        //assign XML resource info to video player in tablet mode
         if (is_tablet) video_view = (SimpleExoPlayerView) findViewById(R.id.step_video);
     }
 
+    //starts video player
     private void initializePlayer() {
         video_player = ExoPlayerFactory.newSimpleInstance(
                 this, new DefaultTrackSelector(), new DefaultLoadControl());
@@ -78,12 +94,14 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         video_player.prepare(mediaSource, true, false);
     }
 
+    //translates URI to a media resource
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource(uri,
                 new DefaultHttpDataSourceFactory("ua"),
                 new DefaultExtractorsFactory(), null, null);
     }
 
+    //defines app start behavior
     @Override
     public void onStart() {
         super.onStart();
@@ -92,6 +110,7 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         }
     }
 
+    //defines app resume behavior
     @Override
     public void onResume() {
         super.onResume();
@@ -100,6 +119,7 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         }
     }
 
+    //defines app pause behavior
     @Override
     public void onPause() {
         super.onPause();
@@ -108,6 +128,7 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         }
     }
 
+    //defines app stop behavior
     @Override
     public void onStop() {
         super.onStop();
@@ -116,6 +137,7 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         }
     }
 
+    //releases player and saves data for resume
     private void releasePlayer() {
         if (video_player != null) {
             playback_position = video_player.getCurrentPosition();
@@ -125,6 +147,8 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         }
     }
 
+    //handles click for the step fragment
+    //logic forks between phone and tablet mode
     @Override
     public void onClick(StepObject step) {
         if (is_tablet) {
@@ -134,6 +158,7 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         }
     }
 
+    //populate the right side of the screen in tablet mode
     public void setStepData(StepObject step) {
         if (video_player != null) video_player.release();
         step_detail_object = step;
@@ -143,21 +168,26 @@ public class Steps extends AppCompatActivity implements StepsAdapter.StepsAdapte
         initializePlayer();
     }
 
+    //launch a single step detail activity in phone mode
     public void launchSingleStep(StepObject step) {
         Context context = Steps.this;
         Class destination = SingleStep.class;
         Intent intent = new Intent(context, destination);
 
+        //step ID
         String step_extra_key = this.getString(R.string.step_extra);
         intent.putExtra(step_extra_key, step.getId());
 
+        //recipe ID
         String r_id_key = this.getString(R.string.recipe_id_extra);
         intent.putExtra(r_id_key, r_id);
 
+        //max steps for navigation
         int step_count = steps.getStepCount();
         String max_steps_key = this.getString(R.string.max_steps_extra);
         intent.putExtra(max_steps_key, step_count - 1);
 
+        //recipe title
         String title_extra = this.getString(R.string.title_extra);
         intent.putExtra(title_extra, recipe_title);
 

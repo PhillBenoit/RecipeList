@@ -12,11 +12,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- *
+ *  Content Provider for all recipe information
  */
 
 public class RecipeProvider extends ContentProvider {
 
+    //URI indexing
     public static final int RECIPES = 100;
     public static final int INGREDIENTS = 200;
     public static final int STEPS = 300;
@@ -40,6 +41,7 @@ public class RecipeProvider extends ContentProvider {
         return uriMatcher;
     }
 
+    //return table name based on matched index
     private String matchURI(int match) {
         String table_name;
 
@@ -69,6 +71,7 @@ public class RecipeProvider extends ContentProvider {
 
     @Nullable
     @Override
+    //query to return information from tables
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection,
                         @Nullable String selection, @Nullable String[] selectionArgs,
                         @Nullable String sortOrder) {
@@ -90,6 +93,7 @@ public class RecipeProvider extends ContentProvider {
 
     @Nullable
     @Override
+    //query to insert a row into a table
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
         String table_name = matchURI(uri_matcher.match(uri));
         if (table_name == null) throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -110,6 +114,7 @@ public class RecipeProvider extends ContentProvider {
     }
 
     @Override
+    //query to delete a row from a table
     public int delete(@NonNull Uri uri, @Nullable String selection,
                       @Nullable String[] selectionArgs) {
         String table_name = matchURI(uri_matcher.match(uri));

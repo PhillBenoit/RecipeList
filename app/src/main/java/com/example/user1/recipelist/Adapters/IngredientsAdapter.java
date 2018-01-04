@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import com.example.user1.recipelist.R;
 
 /**
- *
+ *  ingredient list for a recyclerview
  */
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientBox> {
@@ -21,32 +21,37 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     private float font_size;
     private String[] ingredients;
 
+    //constructor
     public  IngredientsAdapter() {
         font_size = 0.0f;
         ingredients = null;
     }
 
+    //allows retrieving font size information
     public float getFontSize() {
         return font_size;
     }
 
+    //event triggered on view holder creation
     @Override
     public IngredientBox onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
 
+        //calculate font size based on screen size
         Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int height = size.y;
         font_size = height * 0.03f;
 
+        //assign XML resource information and return an inflated view
         int layoutIdForListItem = R.layout.ingredient_checkbox_layout;
         LayoutInflater inflater = LayoutInflater.from(context);
-
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         return new IngredientBox(view);
     }
 
+    //binds view with data from ingredient list
     @Override
     public void onBindViewHolder(IngredientBox holder, int position) {
         holder.bind(ingredients[position]);
@@ -57,11 +62,13 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         return (ingredients == null) ? 0 : ingredients.length;
     }
 
+    //sets step data and initializes the view
     public void setData(String[] s) {
         ingredients = s;
         notifyDataSetChanged();
     }
 
+    //check box with a single ingredient
     class IngredientBox extends RecyclerView.ViewHolder {
 
         CheckBox box;

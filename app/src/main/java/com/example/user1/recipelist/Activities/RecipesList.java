@@ -21,10 +21,14 @@ public class RecipesList extends AppCompatActivity implements RecipesAdapter.Rec
     private static RecipesAdapter recipe_grid;
     private GridLayoutManager layout_manager;
 
+    //Main entry point for the program
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
+
+        /*
+        old tablet mode code
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -32,24 +36,32 @@ public class RecipesList extends AppCompatActivity implements RecipesAdapter.Rec
         int width = size.x;
         int height = size.y;
         int columns = (width > 600 && width > height) ? 3 : 1;
+        */
 
+        //selects number of columns for the recyclerview based on the screen mode
+        boolean is_tablet = getResources().getBoolean(R.bool.isTablet);
+        int columns = (is_tablet) ? 3 : 1;
+
+        //set up recyclerview
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recipe_recycler);
         recipe_grid = new RecipesAdapter(this);
-
         layout_manager = new GridLayoutManager(this, columns);
         recycler.setLayoutManager(layout_manager);
         recycler.setHasFixedSize(true);
         recycler.setAdapter(recipe_grid);
 
+        //get new recipie list if the activity was started from scratch
         if (savedInstanceState == null) runGetRecipes();
     }
 
+    //save scroll state
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("scroll", layout_manager.findFirstVisibleItemPosition());
     }
 
+    //restore recipes and scroll position
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -57,10 +69,12 @@ public class RecipesList extends AppCompatActivity implements RecipesAdapter.Rec
         layout_manager.scrollToPosition(savedInstanceState.getInt("scroll"));
     }
 
+    //runs the process to get new recipes from the data source
     private void runGetRecipes() {
         new getRecipes().execute(this);
     }
 
+    //launches hte steps for a selected recipe
     @Override
     public void onClick(RecipeObject recipe) {
         Context context = RecipesList.this;
@@ -73,6 +87,7 @@ public class RecipesList extends AppCompatActivity implements RecipesAdapter.Rec
         startActivity(intent);
     }
 
+    //gets recipes from the internet
     private static class getRecipes extends AsyncTask<Context, Context, Context> {
         @Override
         protected Context doInBackground(Context... contexts) {
@@ -80,6 +95,7 @@ public class RecipesList extends AppCompatActivity implements RecipesAdapter.Rec
             return contexts[0];
         }
 
+        //populate the recyclerview with retrieved data
         @Override
         protected void onPostExecute(Context context) {
             recipe_grid.setData(DBApi.getRecipes(context));

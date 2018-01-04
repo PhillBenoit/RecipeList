@@ -4,15 +4,16 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Created by User1 on 11/26/2017.
+ * Defines table structure for the content provider
  */
 
 public class DBContract {
 
+    //base URI for all tables
     static final String AUTHORITY = "com.example.user1.recipelist";
-
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
+    //recipes table
     static final class Recipes implements BaseColumns {
         static final String TABLE_NAME = "recipes";
 
@@ -25,6 +26,7 @@ public class DBContract {
         static final String COLUMN_IMAGE_URL = "image_url";
     }
 
+    //ingredients table
     static final class Ingredients implements BaseColumns {
         static final String TABLE_NAME = "ingredients";
 
@@ -37,6 +39,7 @@ public class DBContract {
         static final String COLUMN_MEASURE = "measure";
     }
 
+    //steps table
     static final class Steps implements BaseColumns {
         static final String TABLE_NAME = "steps";
 

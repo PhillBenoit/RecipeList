@@ -16,11 +16,12 @@ import java.net.URL;
 import java.util.Scanner;
 
 /**
- *
+ *   Handles code for retrieving recipe information from the internet.
  */
 
 public class RecipeJSONUtil {
 
+    //parses json data and loads it in to the content provider
     public static void parseJSON(String http_string_results, Context c) {
         if (http_string_results == null) return;
         try {
@@ -37,8 +38,11 @@ public class RecipeJSONUtil {
                 int servings = recipe_object.getInt("servings");
                 String name = recipe_object.getString("name");
                 String image_url = recipe_object.getString("image");
+
+                //adds to recipe table
                 DBApi.addRecipe(id, servings, name, image_url, c);
 
+                //loops through each step and adds it to the steps table
                 JSONArray steps_array = recipe_object.getJSONArray("steps");
                 for (int step_counter = 0; step_counter< steps_array.length(); step_counter++) {
                     JSONObject step_object = steps_array.getJSONObject(step_counter);
@@ -52,6 +56,7 @@ public class RecipeJSONUtil {
                             video_url, thumbnail_url, c);
                 }
 
+                //loops through the ingredients and adds them to the ingredients table
                 JSONArray ingredients_array = recipe_object.getJSONArray("ingredients");
                 for (int ingredient_counter = 0;
                      ingredient_counter < ingredients_array.length(); ingredient_counter++) {

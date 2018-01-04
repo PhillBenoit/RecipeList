@@ -1,7 +1,8 @@
 package com.example.user1.recipelist.Objects;
 
 /**
- *
+ *  Holds the name and ID of a recipe.
+ *  used in an array to populate recyclerviews
  */
 
 public class RecipeObject {

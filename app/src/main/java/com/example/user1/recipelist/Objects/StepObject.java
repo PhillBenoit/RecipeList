@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- *
+ *  Holds information about a single step
  */
 
 public class StepObject implements Parcelable {
